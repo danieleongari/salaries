@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Salaries</title>
+   <link rel="icon" href="images/favicon-32x32.png" >
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap">
+   <style>
+      body {
+         padding-top: 50px; /* to avoid the fixed banner */ 
+         display: flex;
+         flex-direction: column; /* align items vertically */
+         justify-content: center;
+         align-items: center;
+         margin: 0;
+         padding: 50px 0 0 0;
+         background-color: white;
+         font-family: Arial, sans-serif;
+      }
+      .banner {
+         height: 30px;
+         width: 100%;
+         background-color: #333;
+         padding: 10px 0;
+         position: fixed; /* a script will touch this later */
+         top: 0;
+         z-index: 100;
+         display: flex;
+         justify-content: flex-end;
+         transition: transform 0.3s ease-in-out; /* slower transition for reappearing */
+      }
+      .banner-hidden {
+         transform: translateY(-100%);
+         transition: transform 0.2s ease-in-out;
+      }
+      .banner a {
+            padding-right: 10px;
+            text-decoration: none;
+      }
+      .banner a img:hover {
+            filter: hue-rotate(0deg) saturate(100%) brightness(80%);
+      }
+     .container {
+         text-align: center;
+         background-color: white;
+         max-width: 800px;
+         margin: 0 auto;
+      }
+      .footer {
+         bottom: 0;
+         width: 100%;
+         height: 50px; /* Adjust this value to match the height of your banner */
+         display: flex;
+         justify-content: space-between;
+         align-items: flex-end;
+         margin-top: 10px;
+         border-top: 1px solid white;
+         background: linear-gradient(to bottom, white 0%, white 50% );
+         }
+      .footer .left {
+         padding-left: 10px;
+         padding-bottom: 10px;
+         font-family: 'Dancing Script', cursive;
+         font-size: 20px;
+         color: black;
+         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+         text-decoration: none;
+      }
+      .footer .left:hover {
+         color: gray;
+      }
+      .footer .right {
+         padding-right: 10px;
+         padding-bottom: 10px;
+         font-family: 'Dancing Script', cursive;
+         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+         font-size: 18px;
+      }
+      #modDate {
+         font-size: 15px;
+      }
+     h2, h3, h4 {
+         text-align: left;
+      }
+      p {
+         text-align: left;
+      }
+      ul {
+         text-align: left;
+         margin-left: 20px; /* Optional: Adjust the indentation */
+       }
+      iframe {
+         width: 100%;
+         border: none;
+         display: block;
+         margin: 0px;
+      }
+  </style>
+ </head>
+ <body>
+   <div class="banner">
+      <a href="https://github.com/danieleongari/salaries">
+            <img src="images/github-mark-white.png" alt="GitHub" style="height: 30px"> <!-- Same height as banner -->
+      </a> 
+   </div> 
+   <div class="container">
+
+      <h1>Italian Salaries</h1>
+      <p>
+         Cumulative plot of Italian salaries as collected from the Italian Government: the source of data for these plots is 
+         <a href="https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?search_class%5B0%5D=cETA&opendata=yes">finanze.gov.it</a>
+      </p>
+         
+      <h2>Salaries for 5 age groups in 2024</h2>
+      <iframe src="images/people_countcum_2024.html" style="height: 450px;"></iframe>
+      <h2>Salaries for 3 age groups in past years</h2>
+      <iframe src="images/people_countcum_year.html" style="height: 450px;"></iframe>
+      <h2>Salaries for 3 age groups in past years (in percentage)</h2>
+      <iframe src="images/people_countcumperc_year.html" style="height: 450px;"></iframe>
+         
+      <p>Any comment? 
+         <a href="https://github.com/danieleongari/salaries/issues">Write me an issue!</a>
+      </p>
+         
+      <div style="height:50px"></div> 
+
+   </div>
+   <div class="footer">
+      <span class="left"> </span>
+      <span class="right">Last modification <span id="modDate" font-size="10px"></span></span>
+  </div>
+</body>
+</html>
+<script>
+   var lastScrollTop = 0;
+   var banner = document.querySelector('.banner');
+
+   window.addEventListener('scroll', function() {
+       var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+       if (scrollTop > lastScrollTop) {
+           // Downscroll, hide banner
+           banner.classList.add('banner-hidden');
+       } else {
+           // Upscroll, show banner
+           banner.classList.remove('banner-hidden');
+       }
+       lastScrollTop = scrollTop;
+   });
+</script>
+<script>
+   var lastMod = new Date(document.lastModified);
+   var day = ("0" + lastMod.getDate()).slice(-2);
+   var month = ("0" + (lastMod.getMonth() + 1)).slice(-2);
+   var year = lastMod.getFullYear();
+   var hours = ("0" + lastMod.getHours()).slice(-2);
+   var minutes = ("0" + lastMod.getMinutes()).slice(-2);
+   var formattedDate = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
+   document.getElementById('modDate').textContent = formattedDate;
+</script>
